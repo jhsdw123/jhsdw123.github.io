@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Spot the Difference — Play Your Pack</title>
+<style>
+  :root { --bg:#0f1220; --card:#191d2e; --ink:#f4f5fa; --mut:#a7adc4; --line:#2a3048; --teal:#12b39a; --gold:#ffb03a; --red:#ff5a5f; --ok:#25c26e; }
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+  html,body { height:100%; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif; background:var(--bg); color:var(--ink); min-height:100%; }
+  .wrap { max-width:1100px; margin:0 auto; padding:18px 16px 60px; }
+  .brand { text-align:center; font-weight:900; letter-spacing:.5px; font-size:1.15rem; margin-bottom:2px; }
+  .brand em { font-style:normal; background:linear-gradient(90deg,var(--red),var(--gold)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .tagline { text-align:center; color:var(--mut); font-size:.85rem; margin-bottom:22px; }
+
+  /* unlock */
+  .gate { max-width:440px; margin:8vh auto 0; background:var(--card); border:1px solid var(--line); border-radius:18px; padding:28px 24px; text-align:center; }
+  .gate h1 { font-size:1.35rem; margin-bottom:8px; }
+  .gate p { color:var(--mut); font-size:.92rem; line-height:1.5; margin-bottom:20px; }
+  .gate input { width:100%; font-size:1.3rem; font-weight:800; text-align:center; letter-spacing:2px; text-transform:uppercase; padding:14px; border-radius:12px; border:2px solid var(--line); background:#10131f; color:var(--ink); }
+  .gate input:focus { outline:none; border-color:var(--teal); }
+  .gate button { width:100%; margin-top:14px; font-size:1.05rem; font-weight:800; padding:14px; border:none; border-radius:12px; background:var(--teal); color:#04211c; cursor:pointer; }
+  .gate button:disabled { opacity:.5; }
+  .err { color:var(--red); font-weight:700; font-size:.9rem; min-height:20px; margin-top:10px; }
+
+  /* play */
+  .hud { display:flex; align-items:center; justify-content:space-between; gap:12px; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 16px; margin-bottom:14px; flex-wrap:wrap; }
+  .hud .l { font-weight:800; }
+  .hud .l small { display:block; color:var(--mut); font-weight:600; font-size:.72rem; }
+  .stat { text-align:center; }
+  .stat b { display:block; font-size:1.35rem; font-weight:900; }
+  .stat span { color:var(--mut); font-size:.7rem; text-transform:uppercase; letter-spacing:1px; }
+  .found b { color:var(--ok); } .time b { color:var(--gold); }
+  .pair { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media (max-width:720px){ .pair { grid-template-columns:1fr; } }
+  .panel { position:relative; border-radius:12px; overflow:hidden; border:2px solid var(--line); background:#0c0e18; }
+  .panel .tag { position:absolute; top:8px; left:8px; z-index:3; background:rgba(12,14,24,.82); color:#fff; font-weight:800; padding:3px 11px; border-radius:8px; font-size:.9rem; }
+  .panel img { width:100%; display:block; cursor:crosshair; touch-action:manipulation; }
+  .mark { position:absolute; border-radius:50%; border:4px solid var(--ok); box-shadow:0 0 0 3px rgba(0,0,0,.4); transform:translate(-50%,-50%); pointer-events:none; z-index:2; animation:pop .25s ease; }
+  .mark.reveal { border-color:var(--red); border-style:dashed; }
+  @keyframes pop { from { transform:translate(-50%,-50%) scale(.3); opacity:0; } }
+  .miss { position:absolute; color:var(--red); font-weight:900; font-size:1.4rem; transform:translate(-50%,-50%); pointer-events:none; z-index:2; animation:fade .6s ease forwards; }
+  @keyframes fade { to { opacity:0; transform:translate(-50%,-120%);} }
+  .controls { display:flex; gap:10px; justify-content:center; margin-top:16px; flex-wrap:wrap; }
+  .btn { font-size:1rem; font-weight:800; padding:12px 22px; border-radius:999px; border:2px solid var(--line); background:var(--card); color:var(--ink); cursor:pointer; }
+  .btn.primary { background:var(--teal); color:#04211c; border-color:var(--teal); }
+  .btn.gold { background:var(--gold); color:#3a2600; border-color:var(--gold); }
+  .btn:disabled { opacity:.4; cursor:default; }
+  .solved { text-align:center; color:var(--ok); font-weight:800; margin-top:12px; min-height:22px; }
+
+  /* results */
+  .results { max-width:640px; margin:0 auto; background:var(--card); border:1px solid var(--line); border-radius:18px; padding:26px; }
+  .results h1 { text-align:center; font-size:1.5rem; margin-bottom:4px; }
+  .results .sub { text-align:center; color:var(--mut); margin-bottom:20px; }
+  .big { display:flex; justify-content:center; gap:26px; margin-bottom:22px; }
+  .big .stat b { font-size:2rem; }
+  table { width:100%; border-collapse:collapse; font-size:.92rem; }
+  th,td { text-align:left; padding:9px 8px; border-bottom:1px solid var(--line); }
+  th { color:var(--mut); font-weight:700; font-size:.75rem; text-transform:uppercase; letter-spacing:.5px; }
+  td.num { text-align:right; font-variant-numeric:tabular-nums; }
+  .foot { text-align:center; color:var(--mut); font-size:.78rem; margin-top:26px; }
+  .hidden { display:none !important; }
+  @media print { body{background:#fff;color:#000;} .noprint{display:none!important;} .results{border:none;} th,td{border-color:#ccc;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">Spot<em>Hunt</em></div>
+  <div class="tagline">Your puzzle pack — play on any tablet or computer</div>
+
+  <!-- UNLOCK -->
+  <div class="gate" id="gate">
+    <h1>Enter your pack code</h1>
+    <p>Find the code printed inside your PDF (near the QR code). Type it below to unlock your puzzles.</p>
+    <input id="code" type="text" inputmode="text" autocomplete="off" placeholder="e.g. OTVP1-K9X4" maxlength="24">
+    <button id="unlock">Unlock my pack</button>
+    <div class="err" id="err"></div>
+  </div>
+
+  <!-- PLAY -->
+  <div id="play" class="hidden">
+    <div class="hud">
+      <div class="l" id="packTitle">—<small id="progress"></small></div>
+      <div class="stat found"><b id="foundN">0/0</b><span>found</span></div>
+      <div class="stat time" id="timeBox"><b id="clock">0:00</b><span>time</span></div>
+    </div>
+    <div class="pair">
+      <div class="panel"><span class="tag">A</span><img id="imgA" alt="Picture A" draggable="false"></div>
+      <div class="panel"><span class="tag">B</span><img id="imgB" alt="Picture B" draggable="false"></div>
+    </div>
+    <div class="solved" id="solvedMsg"></div>
+    <div class="controls">
+      <button class="btn" id="revealBtn">Show answers</button>
+      <button class="btn primary hidden" id="nextBtn">Next puzzle →</button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="resultsView" class="hidden">
+    <div class="results">
+      <h1 id="rTitle">Nice work! 🎉</h1>
+      <div class="sub" id="rSub"></div>
+      <div class="big">
+        <div class="stat"><b id="rFound">0/0</b><span>found</span></div>
+        <div class="stat" id="rTimeBox"><b id="rTime">0:00</b><span>total time</span></div>
+        <div class="stat"><b id="rAcc">—</b><span>accuracy</span></div>
+      </div>
+      <table><thead><tr><th>Puzzle</th><th>Found</th><th class="num" id="thTime">Time</th></tr></thead><tbody id="rRows"></tbody></table>
+      <div class="controls noprint" style="margin-top:22px;">
+        <button class="btn primary" id="againBtn">Play again</button>
+        <button class="btn gold" id="printBtn">Print / save results</button>
+      </div>
+      <div class="foot">Spot the Difference Studio · your results are private to this device</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const IMG_BASE = 'https://spothuntstudio.com/spot-difference-studio/library/img/';
+const $ = id => document.getElementById(id);
+const norm = c => String(c).toUpperCase().replace(/[^A-Z0-9]/g, '');
+const fmt = s => `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
+
+let PACK = null, idx = 0, results = [], startAt = 0, tickTimer = null;
+let cur = null; // {entry, found:Set, misses, startTime, solved}
+
+async function tryUnlock(code) {
+  const res = await fetch('packs.json', { cache: 'no-store' });
+  const { entries } = await res.json();
+  const keyRaw = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(norm(code)));
+  const key = await crypto.subtle.importKey('raw', keyRaw, 'AES-GCM', false, ['decrypt']);
+  for (const e of entries) {
+    const iv = Uint8Array.from(atob(e.iv), c => c.charCodeAt(0));
+    const data = Uint8Array.from(atob(e.data), c => c.charCodeAt(0));
+    try {
+      const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, data);
+      return JSON.parse(new TextDecoder().decode(pt));
+    } catch (_) { /* wrong code for this entry */ }
+  }
+  return null;
+}
+
+function startClock() {
+  if (PACK.mode !== 'timer') return;
+  startAt = Date.now() - (PACK._elapsed || 0);
+  tickTimer = setInterval(() => { const s = (Date.now() - startAt) / 1000; $('clock').textContent = fmt(s); }, 500);
+}
+function stopClock() { if (tickTimer) { clearInterval(tickTimer); tickTimer = null; } }
+
+function loadPuzzle() {
+  const p = PACK.puzzles[idx];
+  cur = { p, found: new Set(), misses: 0, t0: Date.now(), done: false };
+  $('imgA').src = IMG_BASE + p.id + '_a.webp';
+  $('imgB').src = IMG_BASE + p.id + '_b.webp';
+  document.querySelectorAll('.mark,.miss').forEach(m => m.remove());
+  $('foundN').textContent = `0/${p.count}`;
+  $('progress').textContent = ` · puzzle ${idx + 1} of ${PACK.puzzles.length}`;
+  $('solvedMsg').textContent = '';
+  $('nextBtn').classList.add('hidden');
+  $('revealBtn').disabled = false;
+  $('revealBtn').textContent = 'Show answers';
+}
+
+function markFound(panel, r, cls) {
+  const m = document.createElement('div');
+  m.className = 'mark' + (cls ? ' ' + cls : '');
+  const d = Math.max(r.radius, 4) * 2;
+  m.style.left = r.x + '%'; m.style.top = r.y + '%';
+  m.style.width = d + '%'; m.style.paddingBottom = d + '%';
+  // width% is of panel width; use a square via aspect trick
+  m.style.height = 0; m.style.paddingBottom = 0;
+  const px = panel.clientWidth * d / 100;
+  m.style.width = px + 'px'; m.style.height = px + 'px'; m.style.paddingBottom = '';
+  panel.appendChild(m);
+}
+
+function onTap(ev, panel) {
+  if (!cur || cur.done) return;
+  const img = panel.querySelector('img');
+  const rect = img.getBoundingClientRect();
+  const cx = (ev.touches ? ev.touches[0].clientX : ev.clientX);
+  const cy = (ev.touches ? ev.touches[0].clientY : ev.clientY);
+  const tx = (cx - rect.left) / rect.width * 100, ty = (cy - rect.top) / rect.height * 100;
+  let hit = -1;
+  cur.p.regions.forEach((r, i) => {
+    if (cur.found.has(i)) return;
+    const dx = tx - r.x, dy = ty - r.y;
+    if (Math.hypot(dx, dy) <= Math.max(r.radius * 1.6, 7)) hit = i;
+  });
+  if (hit >= 0) {
+    cur.found.add(hit);
+    const r = cur.p.regions[hit];
+    markFound($('imgA').parentElement, r);
+    markFound($('imgB').parentElement, r);
+    $('foundN').textContent = `${cur.found.size}/${cur.p.count}`;
+    if (cur.found.size >= cur.p.count) finishPuzzle(false);
+  } else {
+    cur.misses++;
+    const x = document.createElement('div');
+    x.className = 'miss'; x.textContent = '✗';
+    x.style.left = tx + '%'; x.style.top = ty + '%';
+    panel.appendChild(x); setTimeout(() => x.remove(), 600);
+  }
+}
+
+function finishPuzzle(revealed) {
+  if (cur.done) return;
+  cur.done = true;
+  const secs = (Date.now() - cur.t0) / 1000;
+  results.push({ n: cur.p.n, count: cur.p.count, found: cur.found.size, misses: cur.misses, secs, revealed });
+  $('revealBtn').disabled = true;
+  $('solvedMsg').textContent = revealed ? 'Answers shown.' : (PACK.mode === 'timer' ? `Solved in ${fmt(secs)}!` : 'All found — well done!');
+  $('nextBtn').classList.remove('hidden');
+  $('nextBtn').textContent = idx + 1 < PACK.puzzles.length ? 'Next puzzle →' : 'See results →';
+}
+
+function reveal() {
+  if (!cur || cur.done) return;
+  cur.p.regions.forEach((r, i) => { if (!cur.found.has(i)) { markFound($('imgB').parentElement, r, 'reveal'); } });
+  finishPuzzle(true);
+}
+
+function nextPuzzle() {
+  idx++;
+  if (idx < PACK.puzzles.length) { loadPuzzle(); }
+  else { showResults(); }
+}
+
+function showResults() {
+  stopClock();
+  $('play').classList.add('hidden');
+  $('resultsView').classList.remove('hidden');
+  const totFound = results.reduce((a, r) => a + r.found, 0);
+  const totPoss = results.reduce((a, r) => a + r.count, 0);
+  const totSecs = results.reduce((a, r) => a + r.secs, 0);
+  const totMiss = results.reduce((a, r) => a + r.misses, 0);
+  $('rSub').textContent = PACK.title;
+  $('rFound').textContent = `${totFound}/${totPoss}`;
+  $('rTime').textContent = fmt(totSecs);
+  const acc = totFound + totMiss > 0 ? Math.round(totFound / (totFound + totMiss) * 100) : 100;
+  $('rAcc').textContent = acc + '%';
+  if (PACK.mode !== 'timer') { $('rTimeBox').classList.add('hidden'); $('thTime').classList.add('hidden'); $('rAcc').parentElement.classList.add('hidden'); $('rTitle').textContent = 'Well done! 🌟'; }
+  $('rRows').innerHTML = results.map(r => `<tr><td>Puzzle ${r.n}</td><td>${r.found}/${r.count}${r.revealed ? ' <span style="color:var(--mut)">(shown)</span>' : ''}</td>${PACK.mode === 'timer' ? `<td class="num">${fmt(r.secs)}</td>` : ''}</tr>`).join('');
+}
+
+function beginPack() {
+  $('gate').classList.add('hidden');
+  $('resultsView').classList.add('hidden');
+  $('play').classList.remove('hidden');
+  $('packTitle').firstChild.textContent = PACK.title;
+  $('timeBox').classList.toggle('hidden', PACK.mode !== 'timer');
+  idx = 0; results = []; PACK._elapsed = 0;
+  loadPuzzle();
+  startClock();
+}
+
+async function doUnlock() {
+  const code = $('code').value.trim();
+  if (!code) return;
+  $('unlock').disabled = true; $('err').textContent = '';
+  try {
+    const pack = await tryUnlock(code);
+    if (!pack) { $('err').textContent = 'That code did not match. Check the code in your PDF and try again.'; $('unlock').disabled = false; return; }
+    PACK = pack; beginPack();
+  } catch (e) {
+    $('err').textContent = 'Something went wrong. Please refresh and try again.'; $('unlock').disabled = false;
+  }
+}
+
+// wire up
+$('unlock').addEventListener('click', doUnlock);
+$('code').addEventListener('keydown', e => { if (e.key === 'Enter') doUnlock(); });
+$('imgA').parentElement.addEventListener('click', e => onTap(e, $('imgA').parentElement));
+$('imgB').parentElement.addEventListener('click', e => onTap(e, $('imgB').parentElement));
+$('revealBtn').addEventListener('click', reveal);
+$('nextBtn').addEventListener('click', nextPuzzle);
+$('againBtn').addEventListener('click', beginPack);
+$('printBtn').addEventListener('click', () => window.print());
+
+// auto-fill from QR (?c=CODE) and auto-unlock
+const q = new URLSearchParams(location.search).get('c');
+if (q) { $('code').value = q; doUnlock(); }
+</script>
+</body>
+</html>
