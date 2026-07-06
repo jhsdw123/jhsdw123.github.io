@@ -84,7 +84,7 @@
     <h1>Enter your pack code</h1>
     <p>Find the code printed inside your PDF (near the QR code).</p>
     <input id="code" type="text" inputmode="text" autocomplete="off" placeholder="e.g. OTVP1-K9X4" maxlength="24">
-    <input id="pname" class="name" type="text" autocomplete="off" placeholder="Patient / player name (optional)" maxlength="60">
+    <input id="pname" class="name" type="text" autocomplete="off" placeholder="Player name (optional)" maxlength="60">
     <button id="unlock">Unlock &amp; start</button>
     <div class="err" id="err"></div>
   </div>
@@ -301,7 +301,7 @@ function interpret(m) {
     const first = results.slice(0,half).reduce((a,r)=>a+r.secs,0)/half;
     const second = results.slice(half).reduce((a,r)=>a+r.secs,0)/(m.n-half);
     if (second > first*1.35) out.push('Response times increased over the session — possible reduced sustained attention or fatigue in the later puzzles.');
-    else if (first > second*1.35) out.push('Response times decreased over the session — a warm-up effect; the patient sped up as they went.');
+    else if (first > second*1.35) out.push('Response times decreased over the session — a warm-up effect; the player sped up as they went.');
     else out.push('Response times stayed fairly steady across the session (consistent pacing).');
   }
   if (m.impMin >= 8 || m.acc < 60) out.push('A high rate of incorrect taps was recorded — this can reflect impulsive, less-systematic scanning. Encouraging a slower left-to-right search may help.');
