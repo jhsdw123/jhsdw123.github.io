@@ -15,23 +15,19 @@
   .brand em { font-style:normal; background:linear-gradient(90deg,var(--red),var(--gold)); -webkit-background-clip:text; background-clip:text; color:transparent; }
   .tagline { text-align:center; color:var(--mut); font-size:.85rem; margin-bottom:22px; }
 
-  /* unlock */
-  .gate { max-width:440px; margin:8vh auto 0; background:var(--card); border:1px solid var(--line); border-radius:18px; padding:28px 24px; text-align:center; }
+  .gate { max-width:440px; margin:7vh auto 0; background:var(--card); border:1px solid var(--line); border-radius:18px; padding:28px 24px; text-align:center; }
   .gate h1 { font-size:1.35rem; margin-bottom:8px; }
-  .gate p { color:var(--mut); font-size:.92rem; line-height:1.5; margin-bottom:20px; }
+  .gate p { color:var(--mut); font-size:.92rem; line-height:1.5; margin-bottom:18px; }
   .gate input { width:100%; font-size:1.3rem; font-weight:800; text-align:center; letter-spacing:2px; text-transform:uppercase; padding:14px; border-radius:12px; border:2px solid var(--line); background:#10131f; color:var(--ink); }
+  .gate input.name { font-size:1rem; font-weight:600; letter-spacing:normal; text-transform:none; margin-top:10px; }
   .gate input:focus { outline:none; border-color:var(--teal); }
   .gate button { width:100%; margin-top:14px; font-size:1.05rem; font-weight:800; padding:14px; border:none; border-radius:12px; background:var(--teal); color:#04211c; cursor:pointer; }
   .gate button:disabled { opacity:.5; }
   .err { color:var(--red); font-weight:700; font-size:.9rem; min-height:20px; margin-top:10px; }
 
-  /* play */
   .hud { display:flex; align-items:center; justify-content:space-between; gap:12px; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 16px; margin-bottom:14px; flex-wrap:wrap; }
-  .hud .l { font-weight:800; }
-  .hud .l small { display:block; color:var(--mut); font-weight:600; font-size:.72rem; }
-  .stat { text-align:center; }
-  .stat b { display:block; font-size:1.35rem; font-weight:900; }
-  .stat span { color:var(--mut); font-size:.7rem; text-transform:uppercase; letter-spacing:1px; }
+  .hud .l { font-weight:800; } .hud .l small { display:block; color:var(--mut); font-weight:600; font-size:.72rem; }
+  .stat { text-align:center; } .stat b { display:block; font-size:1.35rem; font-weight:900; } .stat span { color:var(--mut); font-size:.7rem; text-transform:uppercase; letter-spacing:1px; }
   .found b { color:var(--ok); } .time b { color:var(--gold); }
   .pair { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
   @media (max-width:720px){ .pair { grid-template-columns:1fr; } }
@@ -50,19 +46,33 @@
   .btn:disabled { opacity:.4; cursor:default; }
   .solved { text-align:center; color:var(--ok); font-weight:800; margin-top:12px; min-height:22px; }
 
-  /* results */
-  .results { max-width:640px; margin:0 auto; background:var(--card); border:1px solid var(--line); border-radius:18px; padding:26px; }
-  .results h1 { text-align:center; font-size:1.5rem; margin-bottom:4px; }
-  .results .sub { text-align:center; color:var(--mut); margin-bottom:20px; }
-  .big { display:flex; justify-content:center; gap:26px; margin-bottom:22px; }
-  .big .stat b { font-size:2rem; }
-  table { width:100%; border-collapse:collapse; font-size:.92rem; }
-  th,td { text-align:left; padding:9px 8px; border-bottom:1px solid var(--line); }
-  th { color:var(--mut); font-weight:700; font-size:.75rem; text-transform:uppercase; letter-spacing:.5px; }
-  td.num { text-align:right; font-variant-numeric:tabular-nums; }
-  .foot { text-align:center; color:var(--mut); font-size:.78rem; margin-top:26px; }
+  .results { max-width:760px; margin:0 auto; background:var(--card); border:1px solid var(--line); border-radius:18px; padding:26px; }
+  .results h1 { text-align:center; font-size:1.5rem; margin-bottom:2px; }
+  .rmeta { text-align:center; color:var(--mut); margin-bottom:18px; font-size:.9rem; }
+  .rmeta b { color:var(--ink); }
+  .big { display:flex; flex-wrap:wrap; justify-content:center; gap:22px; margin-bottom:8px; }
+  .big .stat b { font-size:1.7rem; }
+  .section-h { font-size:.8rem; text-transform:uppercase; letter-spacing:1px; color:var(--mut); font-weight:800; margin:24px 0 8px; border-bottom:1px solid var(--line); padding-bottom:6px; }
+  .chartbox { background:#10131f; border:1px solid var(--line); border-radius:12px; padding:12px 10px 6px; }
+  .chartbox svg { width:100%; height:auto; display:block; }
+  .legend { display:flex; gap:16px; justify-content:center; font-size:.78rem; color:var(--mut); margin-top:6px; flex-wrap:wrap; }
+  .legend i { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:5px; vertical-align:-1px; }
+  .interp { background:#10131f; border-left:3px solid var(--gold); border-radius:8px; padding:11px 14px; font-size:.9rem; line-height:1.55; color:var(--ink); margin-top:10px; }
+  table { width:100%; border-collapse:collapse; font-size:.9rem; }
+  th,td { text-align:left; padding:8px; border-bottom:1px solid var(--line); }
+  th { color:var(--mut); font-weight:700; font-size:.72rem; text-transform:uppercase; letter-spacing:.5px; }
+  td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
+  .ev-ok { color:var(--ok); font-weight:800; } .ev-no { color:var(--red); font-weight:800; }
+  .logscroll { max-height:280px; overflow:auto; border:1px solid var(--line); border-radius:10px; }
+  .disc { color:var(--mut); font-size:.75rem; line-height:1.5; margin-top:20px; text-align:center; }
+  .foot { text-align:center; color:var(--mut); font-size:.78rem; margin-top:14px; }
   .hidden { display:none !important; }
-  @media print { body{background:#fff;color:#000;} .noprint{display:none!important;} .results{border:none;} th,td{border-color:#ccc;} }
+  @media print {
+    body{background:#fff;color:#000;} .noprint{display:none!important;}
+    .results{border:none;max-width:100%;} .chartbox,.interp,.logscroll{background:#fff;border-color:#bbb;}
+    .section-h{color:#333;border-color:#bbb;} th,td{border-color:#ccc;color:#000;} .rmeta,.disc,.foot,.legend{color:#333;}
+    .logscroll{max-height:none;overflow:visible;}
+  }
 </style>
 </head>
 <body>
@@ -70,16 +80,15 @@
   <div class="brand">Spot<em>Hunt</em></div>
   <div class="tagline">Your puzzle pack — play on any tablet or computer</div>
 
-  <!-- UNLOCK -->
   <div class="gate" id="gate">
     <h1>Enter your pack code</h1>
-    <p>Find the code printed inside your PDF (near the QR code). Type it below to unlock your puzzles.</p>
+    <p>Find the code printed inside your PDF (near the QR code).</p>
     <input id="code" type="text" inputmode="text" autocomplete="off" placeholder="e.g. OTVP1-K9X4" maxlength="24">
-    <button id="unlock">Unlock my pack</button>
+    <input id="pname" class="name" type="text" autocomplete="off" placeholder="Patient / player name (optional)" maxlength="60">
+    <button id="unlock">Unlock &amp; start</button>
     <div class="err" id="err"></div>
   </div>
 
-  <!-- PLAY -->
   <div id="play" class="hidden">
     <div class="hud">
       <div class="l" id="packTitle">—<small id="progress"></small></div>
@@ -97,22 +106,39 @@
     </div>
   </div>
 
-  <!-- RESULTS -->
   <div id="resultsView" class="hidden">
     <div class="results">
-      <h1 id="rTitle">Nice work! 🎉</h1>
-      <div class="sub" id="rSub"></div>
+      <h1 id="rTitle">Session Summary</h1>
+      <div class="rmeta" id="rMeta"></div>
       <div class="big">
         <div class="stat"><b id="rFound">0/0</b><span>found</span></div>
-        <div class="stat" id="rTimeBox"><b id="rTime">0:00</b><span>total time</span></div>
+        <div class="stat"><b id="rTime">0:00</b><span>total time</span></div>
+        <div class="stat"><b id="rAvg">0:00</b><span>avg / puzzle</span></div>
         <div class="stat"><b id="rAcc">—</b><span>accuracy</span></div>
+        <div class="stat"><b id="rImp">—</b><span>taps / min</span></div>
       </div>
-      <table><thead><tr><th>Puzzle</th><th>Found</th><th class="num" id="thTime">Time</th></tr></thead><tbody id="rRows"></tbody></table>
+
+      <div class="section-h">Response timeline</div>
+      <div class="chartbox" id="timelineBox"></div>
+      <div class="legend"><span><i style="background:#25c26e"></i>Correct find</span><span><i style="background:#ff5a5f"></i>Incorrect tap</span><span><i style="background:#3a4266"></i>Time on puzzle</span></div>
+
+      <div class="section-h">Time per puzzle</div>
+      <div class="chartbox" id="barsBox"></div>
+
+      <div class="interp" id="interp"></div>
+
+      <div class="section-h">Per-puzzle detail</div>
+      <table><thead><tr><th>Puzzle</th><th>Found</th><th class="num">Time</th><th class="num">Incorrect taps</th></tr></thead><tbody id="rRows"></tbody></table>
+
+      <div class="section-h">Full tap log (every response)</div>
+      <div class="logscroll"><table><thead><tr><th class="num">#</th><th class="num">Time</th><th>Puzzle</th><th>Result</th></tr></thead><tbody id="logRows"></tbody></table></div>
+
       <div class="controls noprint" style="margin-top:22px;">
         <button class="btn primary" id="againBtn">Play again</button>
-        <button class="btn gold" id="printBtn">Print / save results</button>
+        <button class="btn gold" id="printBtn">Print / save report</button>
       </div>
-      <div class="foot">Spot the Difference Studio · your results are private to this device</div>
+      <div class="disc">This report is an activity-tracking aid for the supervising professional to review timing and response patterns. It is not a diagnostic instrument.</div>
+      <div class="foot">Spot the Difference Studio · results stay private to this device</div>
     </div>
   </div>
 </div>
@@ -121,10 +147,11 @@
 const IMG_BASE = 'https://spothuntstudio.com/spot-difference-studio/library/img/';
 const $ = id => document.getElementById(id);
 const norm = c => String(c).toUpperCase().replace(/[^A-Z0-9]/g, '');
-const fmt = s => `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
+const mmss = s => `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
 
-let PACK = null, idx = 0, results = [], startAt = 0, tickTimer = null;
-let cur = null; // {entry, found:Set, misses, startTime, solved}
+let PACK = null, idx = 0, results = [], tickTimer = null;
+let session = null; // { name, startTs, dateStr, events:[{ts,puz,correct}] }
+let cur = null;
 
 async function tryUnlock(code) {
   const res = await fetch('packs.json', { cache: 'no-store' });
@@ -137,21 +164,21 @@ async function tryUnlock(code) {
     try {
       const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, data);
       return JSON.parse(new TextDecoder().decode(pt));
-    } catch (_) { /* wrong code for this entry */ }
+    } catch (_) {}
   }
   return null;
 }
 
+function nowS() { return (Date.now() - session.startTs) / 1000; }
 function startClock() {
   if (PACK.mode !== 'timer') return;
-  startAt = Date.now() - (PACK._elapsed || 0);
-  tickTimer = setInterval(() => { const s = (Date.now() - startAt) / 1000; $('clock').textContent = fmt(s); }, 500);
+  tickTimer = setInterval(() => { $('clock').textContent = mmss(nowS()); }, 500);
 }
 function stopClock() { if (tickTimer) { clearInterval(tickTimer); tickTimer = null; } }
 
 function loadPuzzle() {
   const p = PACK.puzzles[idx];
-  cur = { p, found: new Set(), misses: 0, t0: Date.now(), done: false };
+  cur = { p, found: new Set(), misses: 0, t0: Date.now(), sStart: nowS() };
   $('imgA').src = IMG_BASE + p.id + '_a.webp';
   $('imgB').src = IMG_BASE + p.id + '_b.webp';
   document.querySelectorAll('.mark,.miss').forEach(m => m.remove());
@@ -160,19 +187,14 @@ function loadPuzzle() {
   $('solvedMsg').textContent = '';
   $('nextBtn').classList.add('hidden');
   $('revealBtn').disabled = false;
-  $('revealBtn').textContent = 'Show answers';
 }
 
 function markFound(panel, r, cls) {
   const m = document.createElement('div');
   m.className = 'mark' + (cls ? ' ' + cls : '');
-  const d = Math.max(r.radius, 4) * 2;
+  const px = panel.clientWidth * Math.max(r.radius, 4) * 2 / 100;
   m.style.left = r.x + '%'; m.style.top = r.y + '%';
-  m.style.width = d + '%'; m.style.paddingBottom = d + '%';
-  // width% is of panel width; use a square via aspect trick
-  m.style.height = 0; m.style.paddingBottom = 0;
-  const px = panel.clientWidth * d / 100;
-  m.style.width = px + 'px'; m.style.height = px + 'px'; m.style.paddingBottom = '';
+  m.style.width = px + 'px'; m.style.height = px + 'px';
   panel.appendChild(m);
 }
 
@@ -186,10 +208,11 @@ function onTap(ev, panel) {
   let hit = -1;
   cur.p.regions.forEach((r, i) => {
     if (cur.found.has(i)) return;
-    const dx = tx - r.x, dy = ty - r.y;
-    if (Math.hypot(dx, dy) <= Math.max(r.radius * 1.6, 7)) hit = i;
+    if (Math.hypot(tx - r.x, ty - r.y) <= Math.max(r.radius * 1.6, 7)) hit = i;
   });
-  if (hit >= 0) {
+  const correct = hit >= 0;
+  session.events.push({ ts: nowS(), puz: idx + 1, correct });   // record EVERY tap
+  if (correct) {
     cur.found.add(hit);
     const r = cur.p.regions[hit];
     markFound($('imgA').parentElement, r);
@@ -199,8 +222,7 @@ function onTap(ev, panel) {
   } else {
     cur.misses++;
     const x = document.createElement('div');
-    x.className = 'miss'; x.textContent = '✗';
-    x.style.left = tx + '%'; x.style.top = ty + '%';
+    x.className = 'miss'; x.textContent = '✗'; x.style.left = tx + '%'; x.style.top = ty + '%';
     panel.appendChild(x); setTimeout(() => x.remove(), 600);
   }
 }
@@ -209,40 +231,113 @@ function finishPuzzle(revealed) {
   if (cur.done) return;
   cur.done = true;
   const secs = (Date.now() - cur.t0) / 1000;
-  results.push({ n: cur.p.n, count: cur.p.count, found: cur.found.size, misses: cur.misses, secs, revealed });
+  results.push({ n: cur.p.n, count: cur.p.count, found: cur.found.size, misses: cur.misses, secs, revealed, tStart: cur.sStart, tEnd: nowS() });
   $('revealBtn').disabled = true;
-  $('solvedMsg').textContent = revealed ? 'Answers shown.' : (PACK.mode === 'timer' ? `Solved in ${fmt(secs)}!` : 'All found — well done!');
+  $('solvedMsg').textContent = revealed ? 'Answers shown.' : (PACK.mode === 'timer' ? `Solved in ${mmss(secs)}!` : 'All found — well done!');
   $('nextBtn').classList.remove('hidden');
-  $('nextBtn').textContent = idx + 1 < PACK.puzzles.length ? 'Next puzzle →' : 'See results →';
+  $('nextBtn').textContent = idx + 1 < PACK.puzzles.length ? 'Next puzzle →' : 'See report →';
 }
 
 function reveal() {
   if (!cur || cur.done) return;
-  cur.p.regions.forEach((r, i) => { if (!cur.found.has(i)) { markFound($('imgB').parentElement, r, 'reveal'); } });
+  cur.p.regions.forEach((r, i) => { if (!cur.found.has(i)) markFound($('imgB').parentElement, r, 'reveal'); });
   finishPuzzle(true);
 }
+function nextPuzzle() { idx++; if (idx < PACK.puzzles.length) loadPuzzle(); else showResults(); }
 
-function nextPuzzle() {
-  idx++;
-  if (idx < PACK.puzzles.length) { loadPuzzle(); }
-  else { showResults(); }
+// ---------- clinical charts ----------
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+function niceStep(total){ const targets=[5,10,15,20,30,60,120,180,300,600]; for(const t of targets){ if(total/t<=8) return t; } return 900; }
+
+function buildTimeline(total) {
+  const n = results.length, padL=34, padR=12, padT=14, padB=24, W=640;
+  const rowH = Math.max(16, Math.min(30, 220 / n));
+  const H = padT + n*rowH + padB, innerW = W - padL - padR;
+  const X = t => padL + (total>0 ? t/total : 0) * innerW;
+  let s = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" font-family="system-ui,Arial">`;
+  // gridlines + axis
+  const step = niceStep(total);
+  for (let t=0; t<=total+0.01; t+=step) {
+    const x=X(t);
+    s += `<line x1="${x.toFixed(1)}" y1="${padT}" x2="${x.toFixed(1)}" y2="${H-padB}" stroke="#2a3048" stroke-width="1"/>`;
+    s += `<text x="${x.toFixed(1)}" y="${H-padB+15}" fill="#7f88a8" font-size="10" text-anchor="middle">${mmss(t)}</text>`;
+  }
+  results.forEach((r,i)=>{
+    const y = padT + i*rowH + rowH/2;
+    s += `<text x="${padL-6}" y="${(y+3).toFixed(1)}" fill="#a7adc4" font-size="10" text-anchor="end">P${i+1}</text>`;
+    s += `<rect x="${X(r.tStart).toFixed(1)}" y="${(y-4).toFixed(1)}" width="${Math.max(2,X(r.tEnd)-X(r.tStart)).toFixed(1)}" height="8" rx="4" fill="#3a4266"/>`;
+  });
+  session.events.forEach(e=>{
+    const y = padT + (e.puz-1)*rowH + rowH/2, x = X(e.ts);
+    if (e.correct) s += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4" fill="#25c26e" stroke="#0f1220" stroke-width="1"/>`;
+    else s += `<path d="M${(x-3.5).toFixed(1)} ${(y-3.5).toFixed(1)} l7 7 M${(x+3.5).toFixed(1)} ${(y-3.5).toFixed(1)} l-7 7" stroke="#ff5a5f" stroke-width="2" stroke-linecap="round"/>`;
+  });
+  return s + '</svg>';
+}
+
+function buildBars() {
+  const n = results.length, padL=34, padR=12, padT=12, padB=26, W=640, H=180;
+  const innerW=W-padL-padR, innerH=H-padT-padB, maxT=Math.max(...results.map(r=>r.secs),1);
+  const bw = innerW/n*0.62, gap = innerW/n;
+  let s = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" font-family="system-ui,Arial">`;
+  s += `<line x1="${padL}" y1="${H-padB}" x2="${W-padR}" y2="${H-padB}" stroke="#2a3048"/>`;
+  results.forEach((r,i)=>{
+    const h = r.secs/maxT*innerH, x = padL + i*gap + (gap-bw)/2, y = H-padB-h;
+    const col = r.revealed ? '#ff5a5f' : (r.misses===0 ? '#25c26e' : (r.misses<=2 ? '#ffb03a' : '#ff8a5f'));
+    s += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(1,h).toFixed(1)}" rx="3" fill="${col}"/>`;
+    s += `<text x="${(x+bw/2).toFixed(1)}" y="${(y-4).toFixed(1)}" fill="#a7adc4" font-size="9" text-anchor="middle">${mmss(r.secs)}</text>`;
+    s += `<text x="${(x+bw/2).toFixed(1)}" y="${H-padB+13}" fill="#7f88a8" font-size="10" text-anchor="middle">P${i+1}</text>`;
+  });
+  // trend line (avg of solve times)
+  const pts = results.map((r,i)=>[padL+i*gap+gap/2, H-padB-(r.secs/maxT)*innerH]);
+  s += `<polyline points="${pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke="#7f88a8" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.7"/>`;
+  return s + '</svg>';
+}
+
+function interpret(m) {
+  const out = [];
+  if (m.n >= 4) {
+    const half = Math.floor(m.n/2);
+    const first = results.slice(0,half).reduce((a,r)=>a+r.secs,0)/half;
+    const second = results.slice(half).reduce((a,r)=>a+r.secs,0)/(m.n-half);
+    if (second > first*1.35) out.push('Response times increased over the session — possible reduced sustained attention or fatigue in the later puzzles.');
+    else if (first > second*1.35) out.push('Response times decreased over the session — a warm-up effect; the patient sped up as they went.');
+    else out.push('Response times stayed fairly steady across the session (consistent pacing).');
+  }
+  if (m.impMin >= 8 || m.acc < 60) out.push('A high rate of incorrect taps was recorded — this can reflect impulsive, less-systematic scanning. Encouraging a slower left-to-right search may help.');
+  else if (m.impMin <= 2 && m.acc >= 85) out.push('Very few incorrect taps — deliberate, accurate responding and good focus.');
+  else out.push('A moderate number of incorrect taps — generally attentive with some quick guesses.');
+  if (m.revealed > 0) out.push(`${m.revealed} puzzle(s) used “Show answers” before completion.`);
+  return out;
 }
 
 function showResults() {
   stopClock();
   $('play').classList.add('hidden');
   $('resultsView').classList.remove('hidden');
-  const totFound = results.reduce((a, r) => a + r.found, 0);
-  const totPoss = results.reduce((a, r) => a + r.count, 0);
-  const totSecs = results.reduce((a, r) => a + r.secs, 0);
-  const totMiss = results.reduce((a, r) => a + r.misses, 0);
-  $('rSub').textContent = PACK.title;
+  const totFound = results.reduce((a,r)=>a+r.found,0);
+  const totPoss = results.reduce((a,r)=>a+r.count,0);
+  const totSolve = results.reduce((a,r)=>a+r.secs,0);
+  const totMiss = results.reduce((a,r)=>a+r.misses,0);
+  const revealed = results.filter(r=>r.revealed).length;
+  const totalSession = results.length ? results[results.length-1].tEnd : 0;
+  const acc = (totFound+totMiss) ? Math.round(totFound/(totFound+totMiss)*100) : 100;
+  const impMin = totSolve>0 ? +(totMiss/(totSolve/60)).toFixed(1) : 0;
+  const m = { n: results.length, acc, impMin, revealed };
+
+  $('rMeta').innerHTML = `${session.name ? '<b>'+esc(session.name)+'</b> · ' : ''}${esc(PACK.title)} · ${esc(session.dateStr)}`;
   $('rFound').textContent = `${totFound}/${totPoss}`;
-  $('rTime').textContent = fmt(totSecs);
-  const acc = totFound + totMiss > 0 ? Math.round(totFound / (totFound + totMiss) * 100) : 100;
+  $('rTime').textContent = mmss(totalSession);
+  $('rAvg').textContent = mmss(totSolve / (results.length||1));
   $('rAcc').textContent = acc + '%';
-  if (PACK.mode !== 'timer') { $('rTimeBox').classList.add('hidden'); $('thTime').classList.add('hidden'); $('rAcc').parentElement.classList.add('hidden'); $('rTitle').textContent = 'Well done! 🌟'; }
-  $('rRows').innerHTML = results.map(r => `<tr><td>Puzzle ${r.n}</td><td>${r.found}/${r.count}${r.revealed ? ' <span style="color:var(--mut)">(shown)</span>' : ''}</td>${PACK.mode === 'timer' ? `<td class="num">${fmt(r.secs)}</td>` : ''}</tr>`).join('');
+  $('rImp').textContent = ((totMiss+totFound)/(totSolve/60||1)).toFixed(1);
+
+  $('timelineBox').innerHTML = buildTimeline(totalSession);
+  $('barsBox').innerHTML = buildBars();
+  $('interp').innerHTML = interpret(m).map(t=>'• '+esc(t)).join('<br>');
+
+  $('rRows').innerHTML = results.map(r=>`<tr><td>Puzzle ${r.n}</td><td>${r.found}/${r.count}${r.revealed?' <span style="color:var(--mut)">(shown)</span>':''}</td><td class="num">${mmss(r.secs)}</td><td class="num">${r.misses}</td></tr>`).join('');
+  $('logRows').innerHTML = session.events.map((e,i)=>`<tr><td class="num">${i+1}</td><td class="num">${mmss(e.ts)}</td><td>Puzzle ${e.puz}</td><td class="${e.correct?'ev-ok':'ev-no'}">${e.correct?'✓ correct':'✗ incorrect'}</td></tr>`).join('') || '<tr><td colspan="4" style="color:var(--mut)">No taps recorded.</td></tr>';
 }
 
 function beginPack() {
@@ -250,8 +345,9 @@ function beginPack() {
   $('resultsView').classList.add('hidden');
   $('play').classList.remove('hidden');
   $('packTitle').firstChild.textContent = PACK.title;
-  $('timeBox').classList.toggle('hidden', PACK.mode !== 'timer');
-  idx = 0; results = []; PACK._elapsed = 0;
+  $('timeBox').classList.toggle('hidden', PACK.mode !== 'timer'); // patient sees no clock in gentle mode; data still recorded
+  idx = 0; results = [];
+  session = { name: $('pname').value.trim(), startTs: Date.now(), dateStr: new Date().toLocaleString(), events: [] };
   loadPuzzle();
   startClock();
 }
@@ -264,14 +360,12 @@ async function doUnlock() {
     const pack = await tryUnlock(code);
     if (!pack) { $('err').textContent = 'That code did not match. Check the code in your PDF and try again.'; $('unlock').disabled = false; return; }
     PACK = pack; beginPack();
-  } catch (e) {
-    $('err').textContent = 'Something went wrong. Please refresh and try again.'; $('unlock').disabled = false;
-  }
+  } catch (e) { $('err').textContent = 'Something went wrong. Please refresh and try again.'; $('unlock').disabled = false; }
 }
 
-// wire up
 $('unlock').addEventListener('click', doUnlock);
-$('code').addEventListener('keydown', e => { if (e.key === 'Enter') doUnlock(); });
+$('code').addEventListener('keydown', e => { if (e.key === 'Enter') $('pname').focus(); });
+$('pname').addEventListener('keydown', e => { if (e.key === 'Enter') doUnlock(); });
 $('imgA').parentElement.addEventListener('click', e => onTap(e, $('imgA').parentElement));
 $('imgB').parentElement.addEventListener('click', e => onTap(e, $('imgB').parentElement));
 $('revealBtn').addEventListener('click', reveal);
@@ -279,9 +373,8 @@ $('nextBtn').addEventListener('click', nextPuzzle);
 $('againBtn').addEventListener('click', beginPack);
 $('printBtn').addEventListener('click', () => window.print());
 
-// auto-fill from QR (?c=CODE) and auto-unlock
 const q = new URLSearchParams(location.search).get('c');
-if (q) { $('code').value = q; doUnlock(); }
+if (q) { $('code').value = q; $('pname').focus(); }
 </script>
 </body>
 </html>
